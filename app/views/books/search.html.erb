@@ -1,0 +1,25 @@
+<h1>Search Results</h1>
+<%if @books.length == 0 %>
+  nuthin'
+<% else%>
+  <% @books.each do |b|%>
+    <div class="box is-rounded">
+      <div class="columns">
+        <div class="column is-1">
+          <%=b.cat_ddc%>
+        </div>
+        <div class="column is-3">
+          <%=link_to b.title, b%>
+        </div>
+        <div class="column is-1">
+          <%=b.cat_loc%>
+        </div>
+        <div class="column is-1">
+          <%b.authors.each do |a|%>
+            <%= link_to a.lastname, a%>
+          <%end %>
+        </div>
+      </div>
+    </div>
+  <%end %>
+<% end %>

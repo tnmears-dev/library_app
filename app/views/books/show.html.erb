@@ -1,0 +1,88 @@
+<script>
+$(document).ready(function(){
+   
+});
+function submit_new_author(){
+    var d={};
+    var data = {};
+    d["first"]= $("#nauthorfirst").val();
+    d["last"]= $("#nauthorlast").val();
+    data["newauthor"]=d;
+    $.ajax({type:"POST",url:"/books/<%= @book.id %>/newauthor",headers:{'X-CSRF-Token':$('meta[name=csrf-token]').attr("content")},data,contenttype:"application/json"});
+}
+function submit_existing_author(){
+    var d={};
+    var data = {};
+    d["id"]= $("#existingauthor").val();
+    data["existingauthor"]=d;
+    $.ajax({type:"POST",url:"/books/<%= @book.id %>/existingauthor",headers:{'X-CSRF-Token':$('meta[name=csrf-token]').attr("content")},data,contenttype:"application/json"});
+}
+</script>
+<h1><%=@book.title%></h1>
+<div class="box">
+	<div class="columns">
+		<div class="column is-3">
+			<div class="field">
+				<label class="label">Title</label> 
+				<div class="control">
+					<%= form_for(@book) do |f| %><%= f.text_field :title,onchange:'this.form.submit();',:class=>"input" %><%end%>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="box">
+	<div class="columns">
+		<div class="column is-3">
+			<div class="field">
+				<label class="label">Authors</label> 
+				<%@authors.each do |a|%>
+					<%= link_to a.namelast,a %><br />
+				<%end%>
+			</div>
+		</div>
+		<div class="column is-8">
+			<h2>Add Existing Author</h2>
+			<div class="columns">
+				<div class="column is-3">
+					<div class="select"><%= select("","",options_for_select(@authors1),{},{:id=>"existingauthor"})%></div>
+				</div>
+				<div class="column is-3">
+					<div class="button is-rounded has-background-info has-text-white" onclick="submit_existing_author();">Add author</div>
+				</div>
+			</div>
+			<h2>Add New Author</h2>
+			<div class="columns">
+				<div class="column is-3">
+					<input  type="text"  class="input" id="nauthorfirst"></input>
+				</div>
+				<div class="column is-3">
+					<input  type="text"  class="input" id="nauthorlast"></input>
+				</div>
+				<div class="column is-3">
+					<div class="button is-rounded has-background-info has-text-white" onclick="submit_new_author();">Add author</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="box">
+	<div class="columns">
+		<div class="column is-3">
+			<div class="field">
+				<label class="label">Dewey Decimal <%if @book.cat_ddc != nil %>(<%=link_to @book.cat_ddc,"/books/search/dewey/"+@book.cat_ddc[0..2]%>)<%end %></label>
+				<div class="control">
+					<%= form_for(@book) do |f| %><%= f.text_field :cat_ddc,onchange:'this.form.submit();',:class=>"input" %><%end%>
+				</div>
+			</div>
+		</div>
+		<div class="column is-3">
+			<div class="field">
+				<label class="label">Library of Congress</label> 
+				<div class="control">
+					<%= form_for(@book) do |f| %><%= f.text_field :cat_loc,onchange:'this.form.submit();',:class=>"input" %><%end%>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

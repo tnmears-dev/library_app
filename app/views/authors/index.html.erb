@@ -1,0 +1,15 @@
+<div class="columns">
+  <div class="column is-2">
+    <%=Author.all.length%> Authors
+  </div>
+</div>
+
+<%Author.all.reorder("lastname ASC").each do |a|%>
+  <div class="box is-rounded">
+    <div class="columns">
+      <div class="column is-3">
+          <%= link_to a.namelast, a%>
+      </div>
+    </div>
+  </div>
+<%end%>

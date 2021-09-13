@@ -1,0 +1,30 @@
+
+<div class="columns">
+	<div class="column is-2">
+		<a class="button is-rounded has-background-info has-text-white" href="books/new">Add a book</a>
+	</div>
+	<div class="column is-2">
+		<%=Book.all.length%> Books
+	</div>
+</div>
+
+<%Book.all.reorder("title ASC").each do |b|%>
+	<div class="box is-rounded">
+		<div class="columns">
+      <div class="column is-1">
+        <%if b.cat_ddc != nil %><%=link_to b.cat_ddc,"/books/search/dewey/"+b.cat_ddc[0..2]%><%end %>
+      </div>
+			<div class="column is-3">
+				<%=link_to b.title, b%>
+			</div>
+			<div class="column is-1">
+				<%=b.cat_loc%>
+			</div>
+      <div class="column is-1">
+        <%b.authors.each do |a|%>
+          <%= link_to a.lastname, a%>
+        <%end %>
+      </div>
+		</div>
+	</div>
+<%end%>
